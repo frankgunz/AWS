@@ -1,9 +1,5 @@
 # configure aws provider
-provider "aws"{
-    region  = var.region
-    profile = "terraform-user"
-}
-
+#
 # creat vpc 
 module "vpc" {
   source                       = "../modules/vpc"
