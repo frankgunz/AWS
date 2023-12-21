@@ -2,7 +2,7 @@
 #
 # creat vpc 
 module "vpc" {
-  source                       = "../modules/vpc"
+  source                       = "../vpc"
   region                       = var.region  
   project_name                 = var.project_name  
   vpc_cidr                     = var.vpc_cidr  
