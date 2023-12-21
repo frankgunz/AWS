@@ -12,7 +12,7 @@ module "vpc" {
   private_app_subnet_az2_cidr  = var.private_app_subnet_az2_cidr 
   private_data_subnet_az1_cidr = var.private_data_subnet_az1_cidr
   private_data_subnet_az2_cidr = var. private_data_subnet_az2_cidr
-  
+
 
 }
 
@@ -24,7 +24,7 @@ module "eks" {
 
   cluster_endpoint_public_access = true
 
-  vpc_id     = var.aws_vpc.vpc.id
+  vpc_id     = aws_vpc.vpc.id
   subnet_ids = var.private_app_subnet_az1_cidr
 
   eks_managed_node_groups = {
