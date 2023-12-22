@@ -1,6 +1,9 @@
-# configure aws provider
-#
-# creat vpc 
+# Configure AWS provider
+provider "aws" {
+  region = var.region
+}
+
+# Create VPC
 module "vpc" {
   source                       = "../vpc"
   region                       = var.region  
@@ -11,11 +14,19 @@ module "vpc" {
   private_app_subnet_az1_cidr  = var.private_app_subnet_az1_cidr
   private_app_subnet_az2_cidr  = var.private_app_subnet_az2_cidr 
   private_data_subnet_az1_cidr = var.private_data_subnet_az1_cidr
-  private_data_subnet_az2_cidr = var. private_data_subnet_az2_cidr
-
-
+  private_data_subnet_az2_cidr = var.private_data_subnet_az2_cidr
 }
 
+# Output the VPC ID and other necessary information
+output "vpc_id" {
+  value = module.vpc.vpc_id
+}
+
+output "private_app_subnet_ids" {
+  value = module.vpc.private_app_subnet_ids
+}
+
+# Create EKS cluster
 module "eks" {
   source = "terraform-aws-modules/eks/aws"
 
@@ -24,8 +35,8 @@ module "eks" {
 
   cluster_endpoint_public_access = true
 
-  vpc_id     = aws_vpc.vpc.id
-  subnet_ids = var.private_app_subnet_az1_cidr
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_app_subnet_ids
 
   eks_managed_node_groups = {
     nodes = {
